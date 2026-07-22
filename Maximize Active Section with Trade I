@@ -1,0 +1,34 @@
+class Solution(object):
+    def maxActiveSectionsAfterTrade(self, s):
+        one=s.count('1')
+        ans=one
+        i=0
+        c10=0
+        c20=0
+        c11=0
+        while(i<len(s) and s[i]=='1'):
+            i+=1
+        while(i<len(s) and s[i]=='0'):
+            c10+=1
+            i+=1
+        while(i<len(s)):
+            if c10==0:
+                break
+            while (i<len(s) and s[i]=='1'):
+                c11+=1
+                i+=1
+            
+            if c11==0:
+                break
+            while (i<len(s) and s[i]=='0'):
+                i+=1
+                c20+=1
+            if c20==0:
+                break
+            ans=max(ans,one+c10+c20)
+            c10=c20
+            c20=0
+            c11=0
+        return ans
+            
+        

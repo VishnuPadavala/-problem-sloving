@@ -1,24 +1,37 @@
-class Solution {
-public:
-    int countPrimes(int n) {
-        if(n==0 || n==1 || n==2)return 0;
-        vector<int>primes(n+1,1);
-        primes[0]=0;
-        primes[1]=0;
-        int count=0;
+class primetable{
+    private:
+        vector<int>primenumber;
+        int n=5e6+1;
+    public:
+    primetable(){
+        vector<bool>prime(n,true);
+        prime[0]=prime[1]=false;
         for(int i=2;i*i<n;i++){
-            if(!primes[i]){
+            if(!prime[i]){
                 continue;
             }
             for(int j=i*i;j<n;j+=i){
-                primes[j]=0;
+                prime[j]=false;
             }
         }
-        for(int i=0;i<n;i++){
-            if(primes[i]){
-                count++;
+        for(int i=2;i<n;i++){
+            if(prime[i]){
+                primenumber.push_back(i);
             }
         }
-        return count;
+        cout<<"vishnu";
+        return;
+    }
+    int countprime(int ele){
+        auto it=lower_bound(primenumber.begin(),primenumber.end(),ele);
+        return it-primenumber.begin();
+    }
+};
+
+primetable p;
+class Solution {
+public:
+    int countPrimes(int n) {
+        return p.countprime(n);
     }
 };

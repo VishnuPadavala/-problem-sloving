@@ -1,27 +1,12 @@
 class Solution {
 public:
-    int fun(int i,vector<int>& prices,int states,int fee,vector<vector<int>>&dp){
-        if(i>=prices.size()){
-            return 0;
-        }
-        int ans;
-        if(dp[i][states]!=-1){
-            return dp[i][states];
-        }
-        if(states==0){
-            int buy=fun(i+1,prices,1,fee,dp)-prices[i];
-            int skip=fun(i+1,prices,0,fee,dp);
-            ans=max(buy,skip);
-        }else{
-            int sell=fun(i+1,prices,0,fee,dp)+prices[i]-fee;
-            int hold=fun(i+1,prices,1,fee,dp);
-            ans=max(sell,hold);
-        }
-        return dp[i][states]=ans;
-    }
     int maxProfit(vector<int>& prices, int fee) {
         int n=prices.size();
-        vector<vector<int>>dp(n,vector<int>(2,-1));
-        return fun(0,prices,0,fee,dp);
+        vector<vector<int>>dp(n+1,vector<int>(2,0));
+        for(int i=n-1;i>=0;i--){
+            dp[i][0]=max(dp[i+1][1]-prices[i],dp[i+1][0]);
+            dp[i][1]=max(dp[i+1][0]+prices[i]-fee,dp[i+1][1]);
+        }
+        return dp[0][0];
     }
 };
